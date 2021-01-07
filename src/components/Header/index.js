@@ -1,15 +1,26 @@
+import { Link } from 'react-router-dom';
 import styles from './Header.module.css';
 
 function Header(props) {
     return (
         <header className={styles.Header}>
-            <h1>Territories</h1>
+            <Link to="/">
+                <h1>Territories</h1>
+            </Link>
             <nav>
                 <ul>
-                    <li>Login</li>
-                    <li>Signout</li>
-                    <li>Signup</li>
-                    <li>Dashboard</li>
+                    <li>
+                        <Link to="/login">Login</Link>
+                    </li>
+                    <li>
+                        <Link to="">Logout</Link>
+                    </li>
+                    <li>
+                        <Link to="/signup">Signup</Link>
+                    </li>
+                    <li>
+                        <Link to="/dashboard">Dashboard</Link>
+                    </li>
                 </ul>
             </nav>
         </header>

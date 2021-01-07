@@ -1,6 +1,6 @@
 function Login(props) {
     return (
-        <p>Login</p>
+        <div>Login</div>
      );
 }
 
