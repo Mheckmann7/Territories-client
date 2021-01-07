@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { signup } from '../../services/userService';
+import styles from './Signup.module.css';
 
 function Signup(props) {
     const [formState, setFormState] = useState(getInitialFormState());
@@ -20,17 +22,22 @@ function Signup(props) {
             [event.target.name]: event.target.value
         })); 
     }
-    function handleSubmit(event) {
-        event.preventDefault(); 
-        console.log('submitted form data', formState)
-        setFormState(getInitialFormState());
+    async function handleSubmit(event) {
+        try {
+            event.preventDefault(); 
+            await signup(formState) 
+            setFormState(getInitialFormState());
+            props.history.push('/dashboard');
+
+        } catch(error) {
+            alert(error.message);
+        }
         
-        props.history.push('/dashboard');
     }
 
     return (
         <div className="Page">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className={styles.Form}>
                 <input
                     value={formState.firstName}
                     onChange={handleChange}
