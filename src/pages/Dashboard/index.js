@@ -1,6 +1,11 @@
+import Map from '../../components/Map/Map';
+
 function Dashboard(props) {
     return (
-        <div>Dashboard</div>
+        <div>
+        <Map />
+        <p>Dashboard</p>
+        </div>
     );
 }
 
