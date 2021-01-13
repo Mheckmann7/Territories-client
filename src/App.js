@@ -9,11 +9,17 @@ import Dashboard from './pages/Dashboard';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 
+//import Map from './components/Map/Map';
+
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
+//import { getCurrentLatLng } from './services/geolocation';
+
+
 
 import './App.css';
 
 function App(props) {
+
 
   const [ userState, setUserState ] = useState({
     user: getUser()
@@ -31,17 +37,22 @@ function App(props) {
     props.history.push('/');
   }
 
+
+
   return (
     <div className="App">
-      < Header handleLogout={handleLogout} user={userState.user}/> 
+      < Header handleLogout={handleLogout} user={userState.user} />
+
       <main>
+   
         <Switch>
           <Route exact path="/" render={props => 
-             <Home /> 
+            <Home/> 
+             
           } /> 
           <Route exact path="/dashboard" render={props => 
             userState.user ? 
-              <Dashboard /> 
+              <Dashboard  /> 
               :
               <Redirect to="/login" /> 
           } /> 
@@ -53,7 +64,8 @@ function App(props) {
           } /> 
           <Route exact path="/login" render={props => 
             <Login 
-            {...props} 
+              {...props} 
+          
             handleSignupOrLogin={handleSignupOrLogin}
             /> 
           } />   
