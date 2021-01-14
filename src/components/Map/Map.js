@@ -3,6 +3,7 @@ import { useState, useCallback, useRef } from 'react';
 import mapStyles from './map-style';
 import { formatRelative } from 'date-fns';
 import Locate from '../../components/Locate/Locate';
+import { Polygon } from '@react-google-maps/api';
 
 
 const mapContainerStyle = {
@@ -11,8 +12,8 @@ const mapContainerStyle = {
 };
 
 const center = {
-  lat: 37.334789,
-  lng: -121.88813
+  lat: 25.774,
+  lng: -80.19 
 }
 
 const options = {
@@ -20,6 +21,7 @@ const options = {
   disableDefaultUI: true,
   zoomControl: true,
 }
+
 
 function Map(props) {
 
@@ -30,7 +32,7 @@ function Map(props) {
 
   const [markers, setMarkers] = useState([]);
   const [selected, setSelected] = useState(null);
-
+  console.log(markers);
   const onMapClick = useCallback((event) => {
     setMarkers(current => [
       ...current,
@@ -66,6 +68,16 @@ function Map(props) {
         onClick={onMapClick}
         onLoad={onMapLoad}
       >
+        <Polygon
+        path={markers}
+        key={markers.time}
+        options={{
+            fillColor: "#000",
+            fillOpacity: 0.4,
+            strokeColor: "#000",
+            strokeOpacity: 1,
+            strokeWeight: 1
+        }} /> 
         {markers.map(marker => (
           <Marker
             key={marker.time.toISOString()}
@@ -85,7 +97,8 @@ function Map(props) {
           <h2>Player holds this area</h2>
             <p>Since {formatRelative(selected.time, new Date())}</p>
             </div>
-        </InfoWindow>) : null}
+          </InfoWindow>) : null}
+   
       </GoogleMap>
       <Locate panTo={panTo}/> 
     </div>
