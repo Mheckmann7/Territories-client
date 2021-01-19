@@ -35,17 +35,19 @@ function Dashboard(props) {
   const [selected, setSelected] = useState(null);
   console.log(selected);
 
-  const onMapClick = useCallback((event) => {
+  const onMapClick = useCallback((event) => { //change event to location for production 
     setMarkers(current => [ //receive current state and spread out the new version of it 
       ...current,
 
       {
-        // lat: marker.lat,
-        // lng: marker.lng,
+        //Change for production version 
+        // lat: +location.lat,
+        // lng: +location.lng, 
         lat: event.latLng.lat(),
         lng: event.latLng.lng(),
         time: new Date()
       },
+   
     ]);
   }, []);
 
@@ -79,14 +81,14 @@ function Dashboard(props) {
         zoom={12}
         center={location}
         options={options}
-        onClick={onMapClick} //change to a function that makes setMarkers save the lat and lng as the users location. Change from onClick to a button 
+        onClick={onMapClick} //remove for production
         onLoad={onMapLoad}
       >
 
         {markers.map(marker => (
           <Marker
             key={marker.time.toISOString()}
-            position={{ lat: marker.lat, lng: marker.lng }} //repalce { lat: marker.lat, lng: marker.lng } with location 
+            position={{lat: marker.lat, lng: marker.lng}} //repalce { lat: marker.lat, lng: marker.lng } with location 
             onClick={() => setSelected(marker)} //keep same 
           />
         ))}
@@ -109,7 +111,8 @@ function Dashboard(props) {
           }} /> 
    
       </GoogleMap>
-      <Locate panTo={panTo}/> 
+      <Locate panTo={panTo} /> 
+      {/* <button onClick={() => onMapClick(location)}>Set Markers</button>  ADD for production version*/}
     </div>
     
   );
