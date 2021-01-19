@@ -16,8 +16,10 @@ function Locate({panTo}) {
                     },
                     () => null
                 );
+
             }}
         >
+        Recenter    
     </button>
     );
     

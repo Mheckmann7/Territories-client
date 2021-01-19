@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect} from 'react';
 import { getUser, logout } from './services/userService';
 
 import Header from './components/Header'; 
@@ -12,14 +12,46 @@ import Login from './pages/Login';
 //import Map from './components/Map/Map';
 
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
-//import { getCurrentLatLng } from './services/geolocation';
+import { getCurrentLatLng } from './services/geolocation';
+//import{fetchMarkers} from './services/markers'
 
-
+//import { GoogleMap, useLoadScript, Marker, InfoWindow, Data, MarkerClusterer } from '@react-google-maps/api';
 
 import './App.css';
 
+
+
 function App(props) {
 
+  // const [savedMarker, setSavedMarkers] = useState([]);
+
+  // async function getMarkers() {
+  //   const data = await fetchMarkers();
+  //   setSavedMarkers(data)
+  // }
+  
+  // useEffect(() => {
+  //   getMarkers();
+  // }, []);
+
+  //get location 
+
+  const [appData, setAppData] = useState({
+    lat: null,
+    lng: null
+  });
+  
+  async function getAppData() {
+    const data = await getCurrentLatLng();
+    console.log(data);
+    setAppData(data);
+  };
+  
+  useEffect(() => {
+    getAppData();
+  }, []);
+
+  //login
 
   const [ userState, setUserState ] = useState({
     user: getUser()
@@ -37,6 +69,10 @@ function App(props) {
     props.history.push('/');
   }
 
+  //load map
+
+
+ 
 
 
   return (
@@ -52,7 +88,9 @@ function App(props) {
           } /> 
           <Route exact path="/dashboard" render={props => 
             userState.user ? 
-              <Dashboard  /> 
+              <Dashboard
+                lat={appData.lat} lng={appData.lng}
+              /> 
               :
               <Redirect to="/login" /> 
           } /> 
