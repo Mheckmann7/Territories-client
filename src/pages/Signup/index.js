@@ -9,8 +9,7 @@ function Signup(props) {
         
     function getInitialFormState() {
         return {
-            firstName: "",
-            lastName: "",
+            username: "",
             email: "",
             password: "",
         }
@@ -39,21 +38,19 @@ function Signup(props) {
     return (
         <div className="Page">
             <form onSubmit={handleSubmit} className={styles.Form}>
+                <label>Username</label>
                 <input
-                    value={formState.firstName}
+                    value={formState.username}
                     onChange={handleChange}
-                    name="firstName"
-                    type="text" /> 
-                <input
-                    value={formState.lastName}
-                    onChange={handleChange}
-                    name="lastName"
+                    name="username"
                     type="text" />
+                <label>Email</label>
                 <input
                     value={formState.email}
                     onChange={handleChange}
                     name="email"
                     type="email" />
+                <label>Password</label>
                 <input
                     value={formState.password}
                     onChange={handleChange}

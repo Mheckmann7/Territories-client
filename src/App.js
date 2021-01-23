@@ -13,7 +13,7 @@ import Login from './pages/Login';
 
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import { getCurrentLatLng } from './services/geolocation';
-//import{fetchMarkers} from './services/markers'
+// import { fetchAreas, addAreas } from './services/areasService';
 
 //import { GoogleMap, useLoadScript, Marker, InfoWindow, Data, MarkerClusterer } from '@react-google-maps/api';
 
@@ -23,15 +23,23 @@ import './App.css';
 
 function App(props) {
 
-  // const [savedMarker, setSavedMarkers] = useState([]);
+  //  const [areas, setAreas] = useState([]);
 
-  // async function getMarkers() {
-  //   const data = await fetchMarkers();
-  //   setSavedMarkers(data)
+  // async function getAreas() {
+  //   const data = await fetchAreas();
+  //   setAreas(data)
+  // }
+  // async function createArea(area) {
+  //   const data = await addAreas(area);
+  //   setAreas(data);
+  // }
+
+  // function handleAddArea() {
+  //   createArea({username, markers})
   // }
   
   // useEffect(() => {
-  //   getMarkers();
+  //   getAreas();
   // }, []);
 
   //get location 
@@ -72,8 +80,6 @@ function App(props) {
   //load map
 
 
- 
-
 
   return (
     <div className="App">
@@ -89,7 +95,10 @@ function App(props) {
           <Route exact path="/dashboard" render={props => 
             userState.user ? 
               <Dashboard
+                {...props}
                 lat={appData.lat} lng={appData.lng}
+                // handleAddArea={handleAddArea}
+                // areas={areas}
               /> 
               :
               <Redirect to="/login" /> 

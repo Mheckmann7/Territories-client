@@ -36,11 +36,13 @@ function Login(props) {
     return (
         <div className="Page">
             <form onSubmit={handleSubmit}>
+                <label>Email</label>
                 <input
                     value={formState.email}
                     onChange={handleChange}
                     name="email"
                     type="email" />
+                <label>Password</label>
                 <input
                     value={formState.password}
                     onChange={handleChange}
