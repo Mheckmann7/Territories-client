@@ -11,8 +11,10 @@ function Header(props) {
                 <ul>
                 {
                 props.user ? 
-                    <>
+                            <>
+                                  <p>Welcome, {props.user.username}</p>
                         <li>
+                          
                             <Link to="" onClick={props.handleLogout}>Logout</Link>
                         </li>
                         <li>

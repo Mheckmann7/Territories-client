@@ -3,7 +3,7 @@ import { useState, useCallback, useRef, useEffect  } from 'react';
 import mapStyles from './map-style';
 import { formatRelative, setISOWeekYear } from 'date-fns';
 import Locate from '../../components/Locate/Locate';
-import { fetchAreas, addAreas } from '../../services/areasService';
+import { fetchAreas, addAreas, fetchPlayerAreas } from '../../services/areasService';
 
 
 const mapContainerStyle = {
@@ -26,17 +26,18 @@ function Dashboard(props) {
   };
 
 
-  const {isLoaded, loadError } = useLoadScript({
+  const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     
-  }) 
+  })
 
   const [markers, setMarkers] = useState([]);
-  console.log(markers); //saves all of the relavant data from the player in array of 
-  //markers: 0: { lat: 37.34483551763062, lng: -121.90567283828123, time: Thu Jan 21 2021 11: 54: 59 GMT - 0800(Pacific Standard Time) }
-  //1: {lat: 37.35766266092734, lng: -121.88129692275389, time ... } 
+  console.log('markers', markers)
+  const [playersMarkers, setPlayersMarkers] = useState([]);
+  console.log('players markers',playersMarkers) 
+  
   const [selected, setSelected] = useState(null);
-  //console.log(selected);
+
 
   //ADD AREAS FROM BACKEND
 
@@ -44,24 +45,32 @@ function Dashboard(props) {
   //make AJAX request when compoenent first renders 
   useEffect(() => {
     getAreas();
+    getPlayerAreas();
   }, []);
-//peice of state to hold data returned from AJAX 
+
+  //peice of state to hold data returned from AJAX 
 
 
-//makes the AJAX request with service module 
+  //makes the AJAX request with service module 
   async function getAreas() {
-    const data = await fetchAreas();
-    console.log('DATA', data)
+    const data = await fetchAreas(props.user.username); //props.user.username
     //add data from AJAX request to state 
     setMarkers(data) //can use the same peice of state for markers 
+  }
+
+  async function getPlayerAreas() {
+    const data = await fetchPlayerAreas(props.user.username);
+   //console.log(data)
+    setPlayersMarkers(data) //need a new state? 
   }
 
 
   //CALLS ADD AREA INSIDE AREAS SERVICE 
   async function handleAddArea(markers) { //how to call this function? 
     const data = await addAreas(markers)
-    console.log('sending data', data, markers)
+
     setMarkers(markers)
+  
    
   }
 
@@ -75,15 +84,27 @@ function Dashboard(props) {
         //Change for production version 
         // lat: +location.lat,
         // lng: +location.lng, 
+        username: props.user.username,
         lat: event.latLng.lat(),
         lng: event.latLng.lng(),
         time: new Date()
       },
-     // handleAddArea()
+    ]);
+    setPlayersMarkers(current => [ 
+      ...current,
+
+      {
+        //Change for production version 
+        // lat: +location.lat,
+        // lng: +location.lng, 
+        username: props.user.username,
+        lat: event.latLng.lat(),
+        lng: event.latLng.lng(),
+        time: new Date()
+      },
    
     ]);
   }, []);
-
 
 
 
@@ -118,19 +139,26 @@ function Dashboard(props) {
         //onClick={handleAddArea}
         onLoad={onMapLoad}
       >
-
         {markers.map(marker => (
           <Marker
             key={marker.lat} //marker.time.toISOString()
             position={{lat: marker.lat, lng: marker.lng}} //repalce { lat: marker.lat, lng: marker.lng } with location 
             onClick={() => setSelected(marker)} //keep same 
-           // onClick={() => handleAddArea(marker)}
           />
         ))}
+        {/* //Other Marker */}
+        {playersMarkers.map(marker => (
+          <Marker
+            key={marker.lat} //marker.time.toISOString()
+            position={{lat: marker.lat, lng: marker.lng}} //repalce { lat: marker.lat, lng: marker.lng } with location 
+            onClick={() => setSelected(marker)} //keep same 
+          />
+        ))}
+        
         {selected ? (
           <InfoWindow position={{ lat: selected.lat, lng: selected.lng }} onCloseClick={() => setSelected(null)}>
           <div>
-          <h2>Player holds this area</h2>
+              <h2>Player {props.user.username} holds this area</h2>
             {/* <p>Since {formatRelative(selected.time, new Date())}</p> */}
             </div>
           </InfoWindow>) : null}
@@ -144,6 +172,19 @@ function Dashboard(props) {
                 strokeOpacity: 1,
                 strokeWeight: 1
           }} /> 
+        {/* Players Polygon */}
+              <Polygon
+            path={playersMarkers}
+            key={markers.time}
+            options={{
+                fillColor: "#FFF",
+                fillOpacity: 0.4,
+                strokeColor: "#FFF",
+                strokeOpacity: 1,
+                strokeWeight: 1
+          }} /> 
+        
+        
    
       </GoogleMap>
       <Locate panTo={panTo} /> 

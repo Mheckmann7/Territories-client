@@ -23,26 +23,6 @@ import './App.css';
 
 function App(props) {
 
-  //  const [areas, setAreas] = useState([]);
-
-  // async function getAreas() {
-  //   const data = await fetchAreas();
-  //   setAreas(data)
-  // }
-  // async function createArea(area) {
-  //   const data = await addAreas(area);
-  //   setAreas(data);
-  // }
-
-  // function handleAddArea() {
-  //   createArea({username, markers})
-  // }
-  
-  // useEffect(() => {
-  //   getAreas();
-  // }, []);
-
-  //get location 
 
   const [appData, setAppData] = useState({
     lat: null,
@@ -51,7 +31,7 @@ function App(props) {
   
   async function getAppData() {
     const data = await getCurrentLatLng();
-    console.log(data);
+   //console.log(data);
     setAppData(data);
   };
   
@@ -97,6 +77,7 @@ function App(props) {
               <Dashboard
                 {...props}
                 lat={appData.lat} lng={appData.lng}
+                user={userState.user}
                 // handleAddArea={handleAddArea}
                 // areas={areas}
               /> 
