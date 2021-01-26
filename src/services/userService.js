@@ -1,5 +1,6 @@
 import { setToken, getUserFromToken, removeToken } from './tokenService';
-const BASE_URL = 'http://localhost:3001/api/users'; 
+//Development URL const BASE_URL = 'http://localhost:3001/api/users'; 
+const BASE_URL = 'https://shape-wars.herokuapp.com/api/users'; 
 
 function signup(user) {
     return fetch(BASE_URL + '/signup', {

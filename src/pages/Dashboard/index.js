@@ -41,7 +41,7 @@ function Dashboard(props) {
   useEffect(() => {
     getAreas();
     getPlayerAreas();
-
+   // eslint-disable-next-line
   }, []);
 
 
@@ -82,8 +82,9 @@ function Dashboard(props) {
         lng: event.latLng.lng(),
         time: new Date(),
       },
-   
+
     ]);
+     // eslint-disable-next-line
   }, []);
 
 
