@@ -1,16 +1,14 @@
 ## Shape Wars
 
+### The original goal for this project was to create a multi user web app that utilized players real time locations. Which I did accomplish just not in the way I originally intended.
+
 ### Welcome to Shape Wars!
 
-#### Shape wars is a game that allows you to compete with and work alongside other players. The goal of the game is to build off of one anothers shapes while also earning the most points for yourself.
+#### Shape wars is a game that allows you to compete with and work alongside other players. The goal of the game is to build off of one anothers shapes while also earning the most points for yourself. (See the home page of the app for more info)
 
-#### Other players shapes will be shown in black, your shapes will be shown in white
+#### The functionality of the app right now is in a ‘demo’ mode. So for right now instead of placing a marker only at your physical location the app responds to clicks on a map. THe commented out code does work with the functionality the way it’s intended, in which you would click the 'submit' button and it will only place a marker if you are physically in that spot.
 
-#### Place a marker at your current location by clicking on the ‘Place Markers’ button at the bottom of the screen.
-
-#### After you have placed three markers a shape will be drawn automatically connecting to the first marker you placed (be careful where you place your markers to maximize points!)
-
-#### Once you place your markers your shape will be automatically connected to other players nearest shapes. Don’t worry you’ll still keep the same amount of points! But the area between those two shapes (shown by the orange outline) becomes dead space meaning no one can earn any points. So keep in mind where you and other players are placing markers to maximize points!
+Link to live site: [site link](https://shape-wars.netlify.app/)
 
 ### Project Goal
 
