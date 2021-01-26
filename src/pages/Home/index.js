@@ -2,7 +2,7 @@ import styles from './Home.module.css';
 import step1 from '../../img/step1.png';
 import step2 from '../../img/step2.png';
 import step3 from '../../img/step3.png';
-import step4 from '../../img/step4.png';
+
 
 
 function Home(props) {
