@@ -28,3 +28,8 @@
 - MongoDB
 - Google Maps API
 - react-google-maps npm
+
+### Future Goals:
+
+- Create a high scores list of all users scores
+- Recreate this app on React Native (implemenation makes a lot more sends for mobile)
