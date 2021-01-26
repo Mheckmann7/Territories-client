@@ -9,13 +9,9 @@ import Dashboard from './pages/Dashboard';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 
-//import Map from './components/Map/Map';
-
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import { getCurrentLatLng } from './services/geolocation';
-// import { fetchAreas, addAreas } from './services/areasService';
 
-//import { GoogleMap, useLoadScript, Marker, InfoWindow, Data, MarkerClusterer } from '@react-google-maps/api';
 
 import './App.css';
 
@@ -31,7 +27,6 @@ function App(props) {
   
   async function getAppData() {
     const data = await getCurrentLatLng();
-   //console.log(data);
     setAppData(data);
   };
   
@@ -39,7 +34,6 @@ function App(props) {
     getAppData();
   }, []);
 
-  //login
 
   const [ userState, setUserState ] = useState({
     user: getUser()
@@ -57,9 +51,6 @@ function App(props) {
     props.history.push('/');
   }
 
-  //load map
-
-
 
   return (
     <div className="App">
@@ -69,7 +60,7 @@ function App(props) {
    
         <Switch>
           <Route exact path="/" render={props => 
-            <Home/> 
+            <Home lat={appData.lat} lng={appData.lng}/> 
              
           } /> 
           <Route exact path="/dashboard" render={props => 
@@ -78,8 +69,7 @@ function App(props) {
                 {...props}
                 lat={appData.lat} lng={appData.lng}
                 user={userState.user}
-                // handleAddArea={handleAddArea}
-                // areas={areas}
+         
               /> 
               :
               <Redirect to="/login" /> 

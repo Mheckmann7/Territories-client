@@ -1,0 +1,21 @@
+.Home {
+    background-color: lightgray;
+    font-family: 'Verdana';
+
+}
+
+h2, h3 {
+    margin: 10px;
+}
+p {
+    text-align: center;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width:  300px;
+    height: 300px;
+    object-fit: cover;
+}

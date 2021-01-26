@@ -1,9 +1,10 @@
 import { GoogleMap, useLoadScript, Marker, InfoWindow, Polygon} from '@react-google-maps/api';
 import { useState, useCallback, useRef, useEffect  } from 'react';
 import mapStyles from './map-style';
-import { formatRelative, setISOWeekYear } from 'date-fns';
 import Locate from '../../components/Locate/Locate';
-import { fetchAreas, addAreas, fetchPlayerAreas } from '../../services/areasService';
+import { fetchAreas, addAreas, fetchPlayerAreas} from '../../services/areasService';
+import { FindArea } from '../../components/FindArea/FindArea';
+import styles from './Dashboard.module.css';
 
 
 const mapContainerStyle = {
@@ -28,68 +29,47 @@ function Dashboard(props) {
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-    
-  })
+  
+  }); 
+
 
   const [markers, setMarkers] = useState([]);
-  console.log('markers', markers)
   const [playersMarkers, setPlayersMarkers] = useState([]);
-  console.log('players markers',playersMarkers) 
-  
   const [selected, setSelected] = useState(null);
 
 
-  //ADD AREAS FROM BACKEND
-
-  //run side effects such as making AJAX requesets 
-  //make AJAX request when compoenent first renders 
   useEffect(() => {
     getAreas();
     getPlayerAreas();
+
   }, []);
 
-  //peice of state to hold data returned from AJAX 
 
 
-  //makes the AJAX request with service module 
   async function getAreas() {
-    const data = await fetchAreas(props.user.username); //props.user.username
-    //add data from AJAX request to state 
-    setMarkers(data) //can use the same peice of state for markers 
+    const data = await fetchAreas(); 
+    
+    setMarkers(data) 
   }
 
   async function getPlayerAreas() {
     const data = await fetchPlayerAreas(props.user.username);
-   //console.log(data)
-    setPlayersMarkers(data) //need a new state? 
+
+    setPlayersMarkers(data) 
   }
 
 
-  //CALLS ADD AREA INSIDE AREAS SERVICE 
-  async function handleAddArea(markers) { //how to call this function? 
-    const data = await addAreas(markers)
 
-    setMarkers(markers)
-  
+  async function handleAddArea(playersMarkers) { 
+    await addAreas(playersMarkers)
+    setPlayersMarkers(playersMarkers)
    
   }
 
-  
+
 
   const onMapClick = useCallback((event) => { //change event to location for production 
-    setMarkers(current => [ //receive current state and spread out the new version of it 
-      ...current,
 
-      {
-        //Change for production version 
-        // lat: +location.lat,
-        // lng: +location.lng, 
-        username: props.user.username,
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng(),
-        time: new Date()
-      },
-    ]);
     setPlayersMarkers(current => [ 
       ...current,
 
@@ -100,7 +80,7 @@ function Dashboard(props) {
         username: props.user.username,
         lat: event.latLng.lat(),
         lng: event.latLng.lng(),
-        time: new Date()
+        time: new Date(),
       },
    
     ]);
@@ -108,7 +88,7 @@ function Dashboard(props) {
 
 
 
-  const mapRef = useRef(); //retains state without a rerender 
+  const mapRef = useRef(); 
   const onMapLoad = useCallback((map) => {
     mapRef.current = map;
   }, []);
@@ -118,6 +98,8 @@ function Dashboard(props) {
     mapRef.current.setZoom(14);
   }, []);
   
+
+
 
 
   if (loadError) return "Error Loading Maps";
@@ -130,6 +112,7 @@ function Dashboard(props) {
 
   return (
     <div> 
+     
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={12}
@@ -141,29 +124,31 @@ function Dashboard(props) {
       >
         {markers.map(marker => (
           <Marker
-            key={marker.lat} //marker.time.toISOString()
-            position={{lat: marker.lat, lng: marker.lng}} //repalce { lat: marker.lat, lng: marker.lng } with location 
-            onClick={() => setSelected(marker)} //keep same 
+            key={marker.lat}
+            position={{lat: marker.lat, lng: marker.lng}} 
+            onClick={() => setSelected(marker)} 
+
           />
         ))}
         {/* //Other Marker */}
         {playersMarkers.map(marker => (
           <Marker
-            key={marker.lat} //marker.time.toISOString()
-            position={{lat: marker.lat, lng: marker.lng}} //repalce { lat: marker.lat, lng: marker.lng } with location 
+            key={marker.lat} 
+            position={{ lat: marker.lat, lng: marker.lng }} //repalce { lat: marker.lat, lng: marker.lng } with location 
             onClick={() => setSelected(marker)} //keep same 
+       
           />
         ))}
         
         {selected ? (
           <InfoWindow position={{ lat: selected.lat, lng: selected.lng }} onCloseClick={() => setSelected(null)}>
           <div>
-              <h2>Player {props.user.username} holds this area</h2>
-            {/* <p>Since {formatRelative(selected.time, new Date())}</p> */}
+              <h2>Player holds this area</h2>
             </div>
           </InfoWindow>) : null}
           <Polygon
-            path={markers}
+          path={markers}
+          area={markers}
             key={markers.time}
             options={{
                 fillColor: "#000",
@@ -175,7 +160,7 @@ function Dashboard(props) {
         {/* Players Polygon */}
               <Polygon
             path={playersMarkers}
-            key={markers.time}
+            key={playersMarkers.time}
             options={{
                 fillColor: "#FFF",
                 fillOpacity: 0.4,
@@ -189,7 +174,8 @@ function Dashboard(props) {
       </GoogleMap>
       <Locate panTo={panTo} /> 
       {/* <button onClick={() => onMapClick(location)}>Set Markers</button>  ADD for production version*/}
-      <button onClick={() => handleAddArea(markers)}>Testing</button>
+      <button className={styles.button} onClick={() => handleAddArea(playersMarkers)}>Submit</button>
+      <FindArea playersMarkers={playersMarkers} username={props.user.username}/>
     </div>
     
   );

@@ -5,14 +5,14 @@ function Header(props) {
     return (
         <header className={styles.Header}>
             <Link to="/">
-                <h1>Territories</h1>
+                <h1>Shape Wars</h1>
             </Link>
             <nav>
                 <ul>
                 {
                 props.user ? 
-                            <>
-                                  <p>Welcome, {props.user.username}</p>
+                    <>
+                        <li>{props.user.username}</li>
                         <li>
                           
                             <Link to="" onClick={props.handleLogout}>Logout</Link>
@@ -24,7 +24,9 @@ function Header(props) {
                     </>
                     :
                     <>
-                       <li>
+                        <li className={styles.Login}>Start Here →</li>
+                        <li>
+                        
                             <Link to="/login">Login</Link>
                         </li>
                         <li>
