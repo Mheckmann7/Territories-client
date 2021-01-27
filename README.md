@@ -1,6 +1,6 @@
 ## Shape Wars
 
-### The original goal for this project was to create a multi user web app that utilized players real time locations. Which I did accomplish just not in the way I originally intended.
+### The original goal for this project was to create a multi user web app that utilized players real time locations.
 
 ### Welcome to Shape Wars!
 
