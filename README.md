@@ -30,4 +30,6 @@ Link to live site: [site link](https://shape-wars.netlify.app/)
 ### Future Goals:
 
 - Create a high scores list of all users scores
-- Recreate this app on React Native (implemenation makes a lot more sends for mobile)
+- Recreate this app on React Native (implemenation makes a lot more sence for mobile)
+
+#CONTINUED PROJECT: https://github.com/Mheckmann7/Territories-ReactNative
