@@ -8,7 +8,6 @@
 
 #### The functionality of the app right now is in a ‘demo’ mode. So for right now instead of placing a marker only at your physical location the app responds to clicks on a map. THe commented out code does work with the functionality the way it’s intended, in which you would click the 'submit' button and it will only place a marker if you are physically in that spot.
 
-Link to live site: [site link](https://shape-wars.netlify.app/)
 
 ### Project Goal
 
@@ -32,4 +31,3 @@ Link to live site: [site link](https://shape-wars.netlify.app/)
 - Create a high scores list of all users scores
 - Recreate this app on React Native (implemenation makes a lot more sence for mobile)
 
-#CONTINUED PROJECT: https://github.com/Mheckmann7/Territories-ReactNative
